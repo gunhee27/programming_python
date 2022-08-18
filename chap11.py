@@ -1,66 +1,93 @@
+# 모험가 길드
 n = int(input())
-arr = list(map(int, input().split()))
+data = list(map(int,input().split()))
 
-arr.sort(reverse=True)
+data.sort()
+
+count = 0
 result = 0
-i = 0
-while i < len(arr):
-    if arr[i] > len(arr):
-        break
-    else:
-        i += arr[i]
+for i in data:
+    count += 1
+    if count >= i:
         result += 1
+        count = 0
 
 print(result)
 
-
+# 곱하기 혹은 더하기
 data = input()
+
 result = int(data[0])
 for i in range(1, len(data)):
     num = int(data[i])
-    result = max(num + result, num * result)
+    if num <= 1 or result <= 1:
+        result += num
+    else:
+        result *= num
 print(result)
 
-data = input()
-count0 = 0
-count1 = 0
+# 문자열 뒤집기
+data = input();
+result0 = 0
+result1 = 0
 
 if data[0] == '1':
-    count0 += 1
+    result0 += 1
 else:
-    count1 += 1
+    result1 += 1
 
 for i in range(len(data) - 1):
     if data[i] != data[i + 1]:
-        if data[i + 1] == '1':
-            count0 += 1
+        if data[i + 1] == '0':
+            result1 += 1
         else:
-            count1 += 1
+            result0 += 1
 
-print(min(count0, count1))
+print(min(result1, result0))
 
+# 만들 수 없는 금액
 n = int(input())
 data = list(map(int, input().split()))
 data.sort()
-
-target = 1
-for x in data:
-    if target < x:
+sum = data[0]
+for i in range(1, n):
+    if sum >= data[i]:
+        sum += data[i]
+    else:
+        sum += 1
         break
-    target += x
+print(sum)
 
-print(target)
-
+# 볼링공 고르기
 n, m = map(int, input().split())
 data = list(map(int, input().split()))
+array = [0] * (m + 1)
+for i in data:
+    array[i] += 1
 
-array = [0] * 11
-
-for x in data:
-    array[x] += 1
-
-result = 0
-
-for i in range(1, m+1):
+sum = 0
+for i in range(1, m + 1):
     n -= array[i]
-    result += array[i] * n
+    sum += n * array[i]
+
+print(sum)
+
+# 무지의 먹방 라이브
+import heapq
+
+def solution(food_times, k):
+    q = []
+    if sum(food_times) <= k:
+        return -1
+    for i in range(len(food_times)):
+        heapq.heappush(q, (food_times[i], i + 1))
+    length = len(food_times)
+    sumV = 0
+    previous = 0
+    while sumV + length * (q[0][0] - previous) <= k:
+        now = heapq.heappop(q)[0]
+        sumV += length * (now - previous)
+        length -= 1
+        previous = now
+    result = sorted(q, key = lambda x: x[1])
+    return result[(k - sumV) % length][1]
