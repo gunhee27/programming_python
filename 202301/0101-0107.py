@@ -32,3 +32,25 @@ for i in temp:
     if result > maxTri:
         maxTri = result
 print(maxTri)
+
+###############################
+# 0102
+###############################
+# 1254
+def dual(s):
+    for i in range(len(s)):
+        if s[i] == s[len(s) - i - 1]:
+            continue
+        else:
+            return 0
+    return 1
+
+s = input()
+if dual(s) == 1:
+    print(len(s))
+else:
+    for i in range(len(s)):
+       temp = s + s[:i][::-1]
+       if dual(temp) == 1:
+           print(len(temp))
+           break
