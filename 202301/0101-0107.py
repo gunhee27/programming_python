@@ -54,3 +54,96 @@ else:
        if dual(temp) == 1:
            print(len(temp))
            break
+
+
+###############################
+# 0103
+###############################
+# 1206 ============실패============
+import math
+
+def gcd_two(a,b):
+    while b!=0:
+        a, b = b, a % b
+    return a
+
+n = int(input())
+arr = []
+for i in range(n):
+    arr.append(float(input()))
+result = []
+
+for i in arr:
+    num = 0
+    maxi = i * 1000
+    while num < maxi:
+        num += 1
+        if num * i == int(num * i):
+            maxi = num
+        elif (math.floor((math.ceil(num * i) / num) * 1000)) / 1000 == i:
+            maxi = num
+    if num == 0:
+        result.append(1)
+    else: result.append(num)
+gcdArr = result[0]
+lcmArr = result[0]
+for i in range(len(result)):
+    grdArr = gcd_two(lcmArr, result[i])
+    lcmArr = (lcmArr * result[i]) // grdArr
+print(lcmArr)
+
+# 9095
+t = int(input())
+dp = [0] * 12
+dp[0], dp[1], dp[2], dp[3] = 0, 1, 2, 4
+for i in range(t):
+    a = int(input())
+    if a >= 4:
+        for j in range(4, a + 1):
+            dp[j] = dp[j - 1] + dp[j - 2] + dp[j - 3]
+    print(dp[a])
+
+###############################
+# 0104
+###############################
+# 1260
+from collections import deque
+
+n, m, v = map(int, input().split())
+visited = [0] * (n + 1)
+visitedBfs = [0] * (n + 1)
+arr = [[0] * (n + 1) for j in range(n + 1)]
+for i in range(m):
+    x, y = map(int, input().split())
+    arr[x][y] = 1
+    arr[y][x] = 1
+
+
+def dfs(v):
+    visited[v] = 1
+    print(v, end=' ')
+    for i in range(1, n + 1):
+        if visited[i] == 0 and arr[v][i] == 1:
+            dfs(i)
+
+def bfs(v):
+    queue = deque([v])
+    visitedBfs[v] = 1
+    while queue:
+        v = queue.popleft()
+        print(v, end=' ')
+        for i in range(1, n + 1):
+            if visitedBfs[i] == 0 and arr[v][i] == 1:
+                queue.append(i)
+                visitedBfs[i] = 1
+
+dfs(v)
+print()
+bfs(v)
+
+# 1912
+n = int(input())
+arr = list(map(int, input().split()))
+for i in range(1, n):
+    arr[i] = max(arr[i], arr[i - 1] + arr[i])
+print(max(arr))
