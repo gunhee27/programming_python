@@ -147,3 +147,45 @@ arr = list(map(int, input().split()))
 for i in range(1, n):
     arr[i] = max(arr[i], arr[i - 1] + arr[i])
 print(max(arr))
+
+###############################
+# 0104
+###############################
+# 11053
+n = int(input())
+arr = list(map(int,input().split()))
+dp = [0] * n
+for i in range(n):
+    maxi = arr[i]
+    count = 1
+    for j in range(n):
+        if arr[i] > arr[j] and dp[i] < dp[j]:
+            dp[i] = dp[j]
+    dp[i] += 1
+print(max(dp))
+
+# 11724
+import sys
+input = sys.stdin.readline
+sys.setrecursionlimit(10**7)
+
+n, m = map(int, input().split())
+arr = [[0] * (n + 1) for _ in range(n + 1)]
+visited = [False] * (n + 1)
+count = 0
+
+def dfs(v):
+    visited[v] = True
+    for k in range(1, n + 1):
+        if not visited[k] and arr[v][k] == 1:
+            dfs(k)
+
+for i in range(m):
+    x, y = map(int, input().split())
+    arr[x][y] = arr[y][x] = 1
+
+for g in range(1, n + 1):
+    if not visited[g]:
+        dfs(g)
+        count += 1
+print(count)
