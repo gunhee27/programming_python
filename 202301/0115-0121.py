@@ -55,3 +55,34 @@ while 1:
             print(j, end=' ')
         print()
     print()
+
+###############################
+# 0119
+###############################
+# 2178
+from collections import deque
+
+n, m = map(int, input().split())
+arr = [[] * m for _ in range(n)]
+for i in range(n):
+    temp = input()
+    for j in temp:
+        arr[i].append(int(j))
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+
+def bfs(x, y):
+    q = deque()
+    q.append([x, y])
+    while q:
+        x, y = q.popleft()
+        for k in range(4):
+            nx = x + dx[k]
+            ny = y + dy[k]
+            if 0 <= nx < n and 0 <= ny < m and arr[nx][ny] == 1:
+                arr[nx][ny] = arr[x][y] + 1
+                q.append([nx, ny])
+    return arr[n - 1][m - 1]
+
+print(bfs(0, 0))
