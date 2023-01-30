@@ -60,3 +60,43 @@ print()
 inorder('A')
 print()
 postorder('A')
+
+###############################
+# 0130
+###############################
+# 1141
+n = int(input())
+arr = []
+for i in range(n):
+    arr.append(input())
+count = 0
+arr.sort(key=len)
+for i in range(n):
+    flag = False
+    for j in range(i + 1, n):
+        if arr[i] == arr[j][0:len(arr[i])]:
+            flag = True
+            break
+    if not flag:
+        count += 1
+print(count)
+
+
+# 11052
+n = int(input())
+arr = [0] + list(map(int, input().split()))
+dp = [0 for _ in range(n + 1)]
+for i in range(1, n + 1):
+    for k in range(1, i + 1):
+        dp[i] = max(dp[i - k] + arr[k], dp[i])
+print(dp[n])
+
+# 18870
+n = int(input())
+arr = list(map(int, input().split()))
+num = sorted(set(arr))
+new_arr = {}
+for i in range(len(num)):
+    new_arr[num[i]] = i
+for i in range(n):
+    print(new_arr[arr[i]], end=' ')
