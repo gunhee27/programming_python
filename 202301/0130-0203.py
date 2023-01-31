@@ -100,3 +100,66 @@ for i in range(len(num)):
     new_arr[num[i]] = i
 for i in range(n):
     print(new_arr[arr[i]], end=' ')
+
+###############################
+# 0131
+###############################
+# 1138
+n = int(input())
+arr = list(map(int, input().split()))
+ans = [0] * n
+for p in range(1, n + 1):
+    t = arr[p - 1]
+    cnt = 0
+    for i in range(n):
+        if cnt == t and ans[i] == 0:
+            ans[i] = p
+            break
+        elif ans[i] == 0:
+            cnt += 1
+for i in ans:
+    print(i, end=" ")
+
+# 2468
+from collections import deque
+n = int(input())
+arr = []
+maxi = 0
+for i in range(n):
+    temp = list(map(int, input().split()))
+    maxi = max(maxi, max(temp))
+    arr.append(temp)
+
+dx = [0, 0, -1, 1]
+dy = [-1, 1, 0, 0]
+
+def bfs(x, y, h):
+    q = deque()
+    q.append((x, y))
+    visited[x][y] = 1
+    while q:
+        x, y = q.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if  0 <= nx < n and 0 <= ny < n and arr[nx][ny] > h and visited[nx][ny] == 0:
+                visited[nx][ny] = 1
+                q.append((nx, ny))
+
+
+result = []
+for i in range(maxi):
+    cnt = 0
+    visited = [[0] * n for _ in range(n)]
+    for j in range(n):
+        for k in range(n):
+            if arr[j][k] > i and visited[j][k] == 0:
+                bfs(j, k, i)
+                cnt += 1
+    result.append(cnt)
+
+print(max(result))
+
+
+
+
