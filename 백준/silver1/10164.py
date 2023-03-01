@@ -13,11 +13,8 @@ def find(x, y):
 if k == 0:
     print(find(n, m))
 else:
-    sx = k // m + 1
-    sy = k % m
-    if sy == 0:
-        sy = m
+    sx = (k - 1) // m + 1
+    sy = k - (sx - 1) * m
     first = find(sx, sy)
     second = find(n - sx + 1, m - sy + 1)
     print(first * second)
-
